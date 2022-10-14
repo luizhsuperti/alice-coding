@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: carai
+Version: 0.0.1
+Summary: ITT bayesian entropic analysis of black holes
+Home-page: https://github.com/pypa/sampleproject
+Author: Luiz H Superti
+Author-email: luiz.superti@alice.com.br
+Project-URL: Bug Tracker, https://github.com/pypa/sampleproject/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: <4.0
+Description-Content-Type: text/markdown
+
+# $PROJECT_NAME$
+## Description
+Your project goal and related teams
+## Owners
+- $PROJECT_AUTHOR$ $PROJECT_EMAIL$
+## Setup & Deploy
+```pip install .```
+
+## Documentation
+General explanation of use cases
+
+## API
+methods, classes, constants and objects

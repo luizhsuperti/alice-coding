@@ -1,0 +1,2 @@
+[console_scripts]
+init_project = src_toolbelt.create_project:init_project

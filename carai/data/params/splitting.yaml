@@ -1,0 +1,4 @@
+id_column: member_internal_code
+time_column: member_time_months
+event_column: member_churn_flag
+test_size: 0.25
