@@ -23,3 +23,9 @@ carai/setup.py
 carai/src/carai.egg-info
 *google_sheets_credentials.json
 *.env
+*.csv
+ML-models/cousin-itt/notebooks/__pycache__/setup.cpython-39.pyc
+*.pyc
+toolbelt/src_toolbelt/template/lib/.gitkeep
+ML-models/dalya/notebooks/setup.py
+*.csv
