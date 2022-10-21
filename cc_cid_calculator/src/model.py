@@ -51,15 +51,17 @@ class StaggDiD:
         upper_bound: np.array()
         the upper bound of the confidence interval
         """
+        time_interval = [x for x in range(start_time, end_time+1) if x in df[time].unique()]
+        
         #Create empty DataFrame with specific column names & types
         att_df = pd.DataFrame({'time': pd.Series(dtype='int'),
                         'lower_bound': pd.Series(dtype='float'),
                         'mean': pd.Series(dtype='float'),
                         'upper_bound': pd.Series(dtype='float')})
         
-        att_df['time'] = np.arange(start_time, end_time);
+        att_df['time'] = time_interval;
 
-        for t in range(start_time, end_time):
+        for t in  att_df['time']:
             temp_treat_df = df[(df[time] == t) & (df[treatment] == 1)][[member_id,outcome]].merge(df[(df[time] == -1) & (df[treatment] == 1)][[member_id,outcome]], how = 'inner', on = member_id);
             mean_treat = np.mean(np.subtract(temp_treat_df[outcome + '_x'],temp_treat_df[outcome + '_y']));
             var_treat = np.var(np.subtract(temp_treat_df[outcome + '_x'],temp_treat_df[outcome + '_y']))/len(temp_treat_df);
