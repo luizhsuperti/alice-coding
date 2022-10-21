@@ -33,7 +33,7 @@ class StaggDiD:
     def __init__() -> None:
         pass
     
-    def att(df: pd.DataFrame, treatment: str, outcome: str, time: str, start_time:int, end_time:int):
+    def att(df: pd.DataFrame, member_id:str, treatment: str, outcome: str, time: str, start_time:int, end_time:int):
         """
         A method that calculates the att and confidence intervals
         treatment: a string representing the name of the column of the treatment variable, dummy variable 1/0.
@@ -60,15 +60,13 @@ class StaggDiD:
         att_df['time'] = np.arange(start_time, end_time);
 
         for t in range(start_time, end_time):
-            temp_mean_treat = np.mean(df[(df[time] == t) & (df[treatment] == 1)][outcome] - df[(df[time] == -1) & (df[treatment] == 1)][outcome]);
-            len_treat = len(df[(df[time] == t) & (df[treatment] == 1)][outcome] - df[(df[time] == -1) & (df[treatment] == 1)][outcome]);
-            temp_var_treat = np.var(df[(df[time] == t) & (df[treatment] == 1)][outcome] - df[(df[time] == -1) & (df[treatment] == 1)][outcome]);
-            temp_mean_control = np.mean(df[(df[time] == t) & (df[treatment] == 0)][outcome] - df[(df[time] == -1) & (df[treatment] == 0)][outcome]);
-            len_control = len(df[(df[time] == t) & (df[treatment] == 1)][outcome] - df[(df[time] == -1) & (df[treatment] == 1)][outcome]);
-            temp_var_control = np.var(df[(df[time] == t) & (df[treatment] == 0)][outcome] - df[(df[time] == -1) & (df[treatment] == 0)][outcome]);   
-            
-            temp_att_dist = [(temp_var_treat - temp_mean_control), (temp_var_treat/len_treat + temp_var_control/len_control)];
-
+            temp_treat_df = df[(df[time] == t) & (df[treatment] == 1)][[member_id,outcome]].merge(df[(df[time] == -1) & (df[treatment] == 1)][[member_id,outcome]], how = 'inner', on = member_id);
+            mean_treat = np.mean(np.subtract(temp_treat_df[outcome + '_x'],temp_treat_df[outcome + '_y']));
+            var_treat = np.var(np.subtract(temp_treat_df[outcome + '_x'],temp_treat_df[outcome + '_y']))/len(temp_treat_df);
+            temp_ctrl_df = df[(df[time] == t) & (df[treatment] == 0)][[member_id,outcome]].merge(df[(df[time] == -1) & (df[treatment] == 0)][[member_id,outcome]], how = 'inner', on = member_id);
+            mean_ctrl = np.mean(np.subtract(temp_ctrl_df[outcome + '_x'],temp_ctrl_df[outcome + '_y']));
+            var_ctrl = np.var(np.subtract(temp_ctrl_df[outcome + '_x'],temp_ctrl_df[outcome + '_y']))/len(temp_ctrl_df);
+            temp_att_dist = [(mean_treat - mean_ctrl), (var_treat + var_ctrl)];
             att_df.loc[(att_df['time'] == t), 'lower_bound'] = temp_att_dist[0] - 1.96*np.sqrt(temp_att_dist[1])
             att_df.loc[(att_df['time'] == t), 'mean'] = temp_att_dist[0]
             att_df.loc[(att_df['time'] == t), 'upper_bound'] = temp_att_dist[0] + 1.96*np.sqrt(temp_att_dist[1])
