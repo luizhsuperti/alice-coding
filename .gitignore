@@ -30,3 +30,6 @@ toolbelt/src_toolbelt/template/lib/.gitkeep
 ML-models/dalya/notebooks/setup.py
 *.csv
 *.sql
+ML-models/dalya/src/config.py
+dalya/src/config.py
+ML-models/dalya/src/config.py

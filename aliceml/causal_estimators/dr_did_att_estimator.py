@@ -1,26 +1,50 @@
-#standard packages
 import numpy as np
 import pandas as pd
-import logging
-import sys
-#machine-learning packages
-import scipy.optimize as opt
-from sklearn.linear_model import LinearRegression 
-
-#Do-why 
-import dowhy
-from dowhy import CausalModel
+from dowhy.causal_estimator import CausalEstimate, CausalEstimator
+from sklearn.linear_model import LinearRegression
+from sklearn.exceptions import NotFittedError
 
 
-class DrDidEstimator(CausalModel):
-    
-    
+class DrDidAttEstimator(CausalEstimator):
+    """
+    Estimate the causal effect of a treatment on an outcome using the Double Robust Estimator, in
+    a Differences-in-Differences (DiD) environment. It differs from
+    outcome estimators such as OLS, or treatment assignment models such as Matchings, because we
+    need two observations of the outcome, Y(t=0),before treatment, and Y(t=1), after treatment.
+    To facilitate the analysis, the outcome in question is going to be ΔY.
+    """
+
+    def __init__(self, *args, **kwargs):
+        """For a list of standard args and kwargs, see documentation for
+        :class:`~dowhy.causal_estimator.CausalEstimator`.
+        """
+        # Required to ensure that self.method_params contains all the
+        # parameters to create an object of this class
+        args_dict = {k: v for k, v in locals().items() if k not in type(self)._STD_INIT_ARGS}
+        args_dict.update(kwargs)
+        super().__init__(*args, **args_dict)
+        # Check if the treatment is one-dimensional
+        if len(self._treatment_name) > 1:
+            error_msg = str(self.__class__) + "cannot handle more than one treatment variable"
+            raise Exception(error_msg)
+        # Checking if the treatment is binary
+        if not pd.api.types.is_bool_dtype(self._data[self._treatment_name[0]]):
+            error_msg = "Dr-DiD method is applicable only for binary treatments"
+            self.logger.error(error_msg)
+            raise Exception(error_msg)
+
+        self.logger.debug("Back-door variables used:" + ",".join(self._target_estimand.get_backdoor_variables()))
+
+        self._observed_common_causes_names = self._target_estimand.get_backdoor_variables()
+        if self._observed_common_causes_names:
+            self._observed_common_causes = self._data[self._observed_common_causes_names]
+
     def _ipt_obj_function(self,params,  *args):
         '''
-        -----------------------------------------------------------------------
+        --------------------------------------------------------------------
         This function computes the Inverse Probability Tilting Estimator (IPT).
         It is the first step for the Double-Robust estimator 
-        -----------------------------------------------------------------------
+        --------------------------------------------------------------------
         INPUTS as arguments:
         X_*: A matrix (n_obs x n_features) with the both treatment (D=1)
              and control (D=0) observations.
@@ -34,7 +58,7 @@ class DrDidEstimator(CausalModel):
         None
         RETURNS: 
         crit_val
-        -----------------------------------------------------------------------
+        --------------------------------------------------------------------
         '''
         #input list
         gamma_vec0 = params
@@ -90,10 +114,19 @@ class DrDidEstimator(CausalModel):
                        )
         return crit_val
     
-    def fit(self, X, d, delta_y):
+    def construct_symbolic_estimator(self, estimand):
+        """
+        A symbolic string that conveys what each estimator does.
+        For instance, linear regression is expressed as
+        y ~ bx + e
+        """
+        raise NotImplementedError
+
+    def _estimate_effectfit(self):
         """A reference implementation of a fitting function.
         Parameters
         ----------
+        Need X, d, delta_y
         X : {array-like, sparse matrix}, shape (n_samples, n_features)
             The training input samples.
         y : array-like, shape (n_samples,) or (n_samples, n_outputs)
@@ -104,11 +137,10 @@ class DrDidEstimator(CausalModel):
         self : object
             Returns self.
         """
-        X, d = check_X_y(X, d, accept_sparse=True)
-        self.is_fitted_ = True
-        self.X_sup = np.amax(X, axis=0)
-        self.X_inf = np.amin(X, axis = 0)
-        # `fit` should always return `self`
+        X = self._observed_common_causes.to_numpy()
+        d = self._treatment.to_numpy()
+        delta_y = self._outcome.to_numpy()
+
         #------------------------------------------------------# 
         #0-step: the initial step vector for the IPT function is simply
         #an OLS.     
@@ -162,34 +194,24 @@ class DrDidEstimator(CausalModel):
         #ATT has two legs, one based on weights, other in outcomes
         att_first_leg= weight1 - weight0
         att_sec_leg= delta_y - np.matmul(X,self.wls_beta_vector)
-        self.att_mean = np.mean(np.multiply(att_first_leg,att_sec_leg))        
-        
+        att_mean = np.mean(np.multiply(att_first_leg,att_sec_leg))        
+        estimate = att_mean
         #We have to calculate att again, to calculate the variance weights
      
         att_var_weight = np.multiply(att_first_leg,att_sec_leg) - np.multiply(weight1,self.att_mean)
         self.att_var = np.mean(att_var_weight**2) 
         self.att_sd = np.sqrt(self.att_var/len(att_var_weight))
         
-        return self
+        return estimate
     
-    def predict(self,X):
-        check_is_fitted(self)
-        
-        if not ((np.all(np.amin(X,axis = 0)>=self.X_inf) and np.all(np.amax(X,axis=0)>= self.X_inf)) or (np.all(np.amax(X,axis = 0)<=self.X_sup) and np.all(np.amin(X,axis=0)<= self.X_sup))):
-            logging.error('X out of support')
-            sys.exit(1)
-        
-        result = np.repeat(self.att_mean, len(X))
-        return result    
+     
     
-    
-def AteDrDiDEstimator(estimator,X):
-    
-    def __init__(self, X, true_control_,treatment_,alt_treatments_, delta_y):
-        self.X = X
-        self.t_ = treatment_
-        self.c_ = true_control_
-        self.at_ = alt_treatments_
-        self.y_ = delta_y
-        self.drdid = DrDidEstimator()
-    
+#def AteDrDiDEstimator(estimator,X):
+#   
+#    def __init__(self, X, true_control_,treatment_,alt_treatments_, delta_y):
+#        self.X = X
+#        self.t_ = treatment_
+#        self.c_ = true_control_
+#        self.at_ = alt_treatments_
+#        self.y_ = delta_y
+#        self.drdid = DrDidEstimator()
