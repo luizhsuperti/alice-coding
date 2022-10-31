@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from $PROJECT_NAME$.interfaces.data_interactor import DataInteractor
+from caremel_predict.interfaces.data_interactor import DataInteractor
 
 
 class PipelineStep(ABC):

@@ -1,5 +1,5 @@
 import joblib
-from $PROJECT_NAME$ import get_model_path
+from caremel_predict import get_model_path
 from abc import ABC, abstractmethod
 
 

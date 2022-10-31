@@ -2,7 +2,7 @@ import json
 import os
 
 from dotenv import load_dotenv
-from $PROJECT_NAME$ import get_lib_path
+from caremel_predict import get_lib_path
 
 
 class Credentials:

@@ -4,8 +4,8 @@ Feature engineering for the model.
 
 import logging
 
-from $PROJECT_NAME$.interfaces.pipeline_step import PipelineStep
-from $PROJECT_NAME$.transformers.feature_engineers import (Dumminizer, Scaler,
+from caremel_predict.interfaces.pipeline_step import PipelineStep
+from caremel_predict.transformers.feature_engineers import (Dumminizer, Scaler,
                                                            Selector)
 
 

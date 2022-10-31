@@ -1,4 +1,4 @@
-from $PROJECT_NAME$.interfaces.splitter import Splitter
+from caremel_predict.interfaces.splitter import Splitter
 from sklearn.model_selection import train_test_split
 
 

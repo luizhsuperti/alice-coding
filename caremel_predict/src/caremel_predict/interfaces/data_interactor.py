@@ -2,8 +2,8 @@ import pandas as pd
 import pandas.io.sql as sqlio
 import psycopg2
 import yaml
-from $PROJECT_NAME$ import get_data_path
-from $PROJECT_NAME$.interfaces.config import Credentials
+from caremel_predict import get_data_path
+from caremel_predict.interfaces.config import Credentials
 from googleapiclient.discovery import build
 from oauth2client.service_account import ServiceAccountCredentials
 

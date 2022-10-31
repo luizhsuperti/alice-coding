@@ -1,4 +1,4 @@
-from $PROJECT_NAME$.interfaces.model import Model
+from caremel_predict.interfaces.model import Model
 
 class RandomModel(Model):
     def __init__(self):

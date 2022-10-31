@@ -1,6 +1,6 @@
 import pandas as pd
-from $PROJECT_NAME$.interfaces.transformer import Transformer
-from $PROJECT_NAME$.utils.helper_functions import check_integrity
+from caremel_predict.interfaces.transformer import Transformer
+from caremel_predict.utils.helper_functions import check_integrity
 
 
 class Dropper(Transformer):

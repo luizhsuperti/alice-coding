@@ -1,9 +1,9 @@
 import logging
 
 import numpy as np
-from $PROJECT_NAME$ import get_data_path
-from $PROJECT_NAME$.interfaces.pipeline_step import PipelineStep
-from $PROJECT_NAME$.interfaces.splitter import Splitter
+from caremel_predict import get_data_path
+from caremel_predict.interfaces.pipeline_step import PipelineStep
+from caremel_predict.interfaces.splitter import Splitter
 
 
 class Splitting(PipelineStep):

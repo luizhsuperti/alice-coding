@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 import joblib
-from $PROJECT_NAME$ import get_models_path
+from caremel_predict import get_models_path
 
 
 class Transformer(ABC):

@@ -4,7 +4,7 @@ Preprocess data for training and testing.
 
 import logging
 
-from $PROJECT_NAME$.interfaces.pipeline_step import PipelineStep
+from caremel_predict.interfaces.pipeline_step import PipelineStep
 
 
 class DataPreprocessing(PipelineStep):

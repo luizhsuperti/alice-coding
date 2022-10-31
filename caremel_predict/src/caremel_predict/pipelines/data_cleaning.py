@@ -4,8 +4,8 @@ Clean data and apply basic transformations.
 
 import logging
 
-from $PROJECT_NAME$.interfaces.pipeline_step import PipelineStep
-from $PROJECT_NAME$.transformers.cleaners import Cleaner, Filter
+from caremel_predict.interfaces.pipeline_step import PipelineStep
+from caremel_predict.transformers.cleaners import Cleaner, Filter
 
 
 class DataCleaning(PipelineStep):
