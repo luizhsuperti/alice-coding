@@ -238,7 +238,7 @@ class DataInteractor:
 
     def __init__(self):
         self.static = StaticDataInteractor()
-        self.sheets = GoogleSheetsDataInteractor()
+        #self.sheets = GoogleSheetsDataInteractor()
         self.postgres = PGWarehouseDataInteractor()
         self.redshift = RSWarehouseDataInteractor()
         self.bucket = BucketDataInteractor()

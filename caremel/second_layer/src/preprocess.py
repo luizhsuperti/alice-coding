@@ -144,6 +144,23 @@ class Preprocess:
             'Você fuma ou já fumou?',
             'Você usa drogas recreativas (como maconha ou outras drogas sintéticas)? Se sim, quais?'
         ]
+
+        QUESTIONS = [
+        'Alguma dessas doenças está presente na sua família: Acidente vascular cerebral (derrame) - Pode selecionar todas as opções aplicáveis.'
+        'Alguma dessas doenças está presente na sua família: Câncer de Intestino - Pode selecionar todas as opções aplicáveis.'
+        'Alguma dessas doenças está presente na sua família: Câncer de Mama - Pode selecionar todas as opções aplicáveis.'
+        'Alguma dessas doenças está presente na sua família: Câncer de pele - Pode selecionar todas as opções aplicáveis.'
+        'Alguma dessas doenças está presente na sua família: Diabetes - Pode selecionar todas as opções aplicáveis.'
+        'Alguma dessas doenças está presente na sua família: Hipertensão arterial - Pode selecionar todas as opções aplicáveis.'
+        'Alguma dessas doenças está presente na sua família: Infarto do miocárdio - Pode selecionar todas as opções aplicáveis.'
+        'O que te incomoda em relação à sua saúde?'
+        'Qual a sua altura? (em cm)'
+        'Qual o seu peso atual? (em kg)'
+        'Você fuma ou já fumou?'
+        'Você usa drogas recreativas (como maconha ou outras drogas sintéticas)?'
+        ]
+
+
         fp_dict = collections.defaultdict()
         df_fp.apply(lambda row: add_in_dict_fp(row), axis=1)
         df_fp_row = pd.DataFrame.from_dict(
