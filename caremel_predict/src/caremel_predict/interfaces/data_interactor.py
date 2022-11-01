@@ -1,8 +1,11 @@
+from typing import Literal
+
 import pandas as pd
 import pandas.io.sql as sqlio
 import psycopg2
+import sqlalchemy
 import yaml
-from caremel_predict import get_data_path
+from caremel_predict import get_data_path, get_queries_path
 from caremel_predict.interfaces.config import Credentials
 from googleapiclient.discovery import build
 from oauth2client.service_account import ServiceAccountCredentials
@@ -63,7 +66,7 @@ class WarehouseDataInteractor:
         """"
         Run a sql query file on the data warehouse.
         """
-        query = open(sql_path, 'r').read()
+        query = open(get_queries_path(sql_path), 'r').read()
         conn = psycopg2.connect(host=self.endpoint,
                                 port=self.port,
                                 database=self.dbname,
@@ -105,16 +108,34 @@ class WarehouseDataInteractor:
         self._sql_execute(query)
 
     def insert_table(self,
+                     dataset: pd.DataFrame,
                      table_name: str,
-                     data: pd.DataFrame,
-                     delete: bool = True):
+                     schema: str = 'restricted_datascience',
+                     if_exists: Literal['fail', 'replace',
+                                        'append'] = 'replace',
+                     index: bool = False,
+                     index_label: str = None,
+                     chunksize: int = None,
+                     dtype: dict = None):
         """
         Insert a table into the data warehouse.
         """
-        if delete:
-            self.delete_table(table_name)
-        query = f"CREATE TABLE {table_name} ({data.to_csv(index=False)})"
-        self._sql_execute(query)
+        url_conn = f"redshift://{self.user}:{self.token}@{self.endpoint}:{self.port}/{self.dbname}"
+        engine = sqlalchemy.create_engine(url_conn,
+                                          connect_args={'sslmode': 'prefer'})
+        dataset.to_sql(table_name,
+                       engine,
+                       schema=schema,
+                       if_exists=if_exists,
+                       index=index,
+                       index_label=index_label,
+                       chunksize=chunksize,
+                       dtype=dtype,
+                       method='multi')
+
+        print(
+            f"Table {table_name} inserted successfully, with {len(dataset)} rows."
+        )
 
 
 class RSWarehouseDataInteractor(WarehouseDataInteractor):
@@ -155,7 +176,7 @@ class GoogleSheetsDataInteractor:
         Create the object with a sheet_id and the path to the json file containing the key
         """
         scopes = ['https://www.googleapis.com/auth/spreadsheets']
-        self.credentials = ServiceAccountCredentials().from_json_keyfile_dict(
+        self.credentials = ServiceAccountCredentials.from_json_keyfile_dict(
             GOOGLE_CERTIFICATE, scopes)
 
     def load(self, sheet_id, sheet_range, sheet_name=None):
@@ -238,7 +259,7 @@ class DataInteractor:
 
     def __init__(self):
         self.static = StaticDataInteractor()
-        #self.sheets = GoogleSheetsDataInteractor()
+        self.sheets = GoogleSheetsDataInteractor()
         self.postgres = PGWarehouseDataInteractor()
         self.redshift = RSWarehouseDataInteractor()
         self.bucket = BucketDataInteractor()
