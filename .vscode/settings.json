@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./redshift_import_export/src"
+    ]
+}
