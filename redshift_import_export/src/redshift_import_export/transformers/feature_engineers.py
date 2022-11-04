@@ -1,6 +1,6 @@
 import pandas as pd
-from redshift_export.interfaces.transformer import Transformer
-from redshift_export.utils.helper_functions import check_integrity
+from redshift_import_export.interfaces.transformer import Transformer
+from redshift_import_export.utils.helper_functions import check_integrity
 
 
 class Selector(Transformer):

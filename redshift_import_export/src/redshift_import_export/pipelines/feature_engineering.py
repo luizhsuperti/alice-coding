@@ -4,8 +4,8 @@ Feature engineering for the model.
 
 import logging
 
-from redshift_export.interfaces.pipeline_step import PipelineStep
-from redshift_export.transformers.feature_engineers import (Dumminizer, Scaler,
+from redshift_import_export.interfaces.pipeline_step import PipelineStep
+from redshift_import_export.transformers.feature_engineers import (Dumminizer, Scaler,
                                                            Selector)
 
 

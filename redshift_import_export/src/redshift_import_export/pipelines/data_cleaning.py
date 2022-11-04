@@ -4,8 +4,8 @@ Clean data and apply basic transformations.
 
 import logging
 
-from redshift_export.interfaces.pipeline_step import PipelineStep
-from redshift_export.transformers.cleaners import Cleaner, Filter
+from redshift_import_export.interfaces.pipeline_step import PipelineStep
+from redshift_import_export.transformers.cleaners import Cleaner, Filter
 
 
 class DataCleaning(PipelineStep):

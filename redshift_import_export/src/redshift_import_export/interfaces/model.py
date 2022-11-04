@@ -1,5 +1,5 @@
 import joblib
-from redshift_export import get_model_path
+from redshift_import_export import get_model_path
 from abc import ABC, abstractmethod
 
 

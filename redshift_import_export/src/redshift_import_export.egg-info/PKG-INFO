@@ -1,7 +1,7 @@
 Metadata-Version: 2.1
-Name: redshift-export
-Version: 1.0.0
-Summary: A general export project, to import small redshift datasets, make transformations and export to the data science folder
+Name: redshift-import-export
+Version: 0.0.1
+Summary: A import export project from redshift to redshift
 Home-page: https://github.com/pypa/sampleproject
 Author: Luiz H Superti
 Author-email: luiz.superti@alice.com.br
@@ -12,7 +12,7 @@ Classifier: Operating System :: OS Independent
 Requires-Python: <4.0
 Description-Content-Type: text/markdown
 
-# redshift_export
+# redshift_import_export
 ## Description
 Your project goal and related teams
 ## Owners

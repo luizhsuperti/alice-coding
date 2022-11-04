@@ -3,11 +3,11 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-setuptools.setup(name="redshift_export",
-                 version="1.0.0",
+setuptools.setup(name="redshift_import_export",
+                 version="0.0.1",
                  author="Luiz H Superti",
                  author_email="luiz.superti@alice.com.br",
-                 description="A general export project, to import small redshift datasets, make transformations and export to the data science folder",
+                 description="A import export project from redshift to redshift",
                  long_description=long_description,
                  long_description_content_type="text/markdown",
                  url="https://github.com/pypa/sampleproject",

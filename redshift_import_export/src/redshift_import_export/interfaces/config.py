@@ -2,7 +2,7 @@ import json
 import os
 
 from dotenv import load_dotenv
-from redshift_export import get_lib_path
+from redshift_import_export import get_lib_path
 
 
 class Credentials:

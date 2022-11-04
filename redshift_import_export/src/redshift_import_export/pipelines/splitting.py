@@ -1,9 +1,9 @@
 import logging
 
 import numpy as np
-from redshift_export import get_data_path
-from redshift_export.interfaces.pipeline_step import PipelineStep
-from redshift_export.interfaces.splitter import Splitter
+from redshift_import_export import get_data_path
+from redshift_import_export.interfaces.pipeline_step import PipelineStep
+from redshift_import_export.interfaces.splitter import Splitter
 
 
 class Splitting(PipelineStep):

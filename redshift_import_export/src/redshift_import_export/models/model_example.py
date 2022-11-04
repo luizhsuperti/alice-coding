@@ -1,4 +1,4 @@
-from redshift_export.interfaces.model import Model
+from redshift_import_export.interfaces.model import Model
 
 class RandomModel(Model):
     def __init__(self):

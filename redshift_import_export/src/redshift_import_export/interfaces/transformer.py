@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 import joblib
-from redshift_export import get_models_path
+from redshift_import_export import get_models_path
 
 
 class Transformer(ABC):

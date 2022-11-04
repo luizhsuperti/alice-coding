@@ -1,4 +1,4 @@
-from redshift_export.interfaces.splitter import Splitter
+from redshift_import_export.interfaces.splitter import Splitter
 from sklearn.model_selection import train_test_split
 
 

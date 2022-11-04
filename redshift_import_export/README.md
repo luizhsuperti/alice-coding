@@ -1,4 +1,4 @@
-# redshift_export
+# redshift_import_export
 ## Description
 Your project goal and related teams
 ## Owners

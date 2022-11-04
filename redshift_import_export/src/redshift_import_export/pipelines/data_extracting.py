@@ -4,8 +4,8 @@ Load data and generate CSV files.
 
 import logging
 
-from redshift_export import get_data_path
-from redshift_export.interfaces.pipeline_step import PipelineStep
+from redshift_import_export import get_data_path
+from redshift_import_export.interfaces.pipeline_step import PipelineStep
 
 
 class DataExtraction(PipelineStep):

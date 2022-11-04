@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from redshift_export.interfaces.data_interactor import DataInteractor
+from redshift_import_export.interfaces.data_interactor import DataInteractor
 
 
 class PipelineStep(ABC):
