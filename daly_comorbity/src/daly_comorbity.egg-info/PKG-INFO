@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: daly-comorbity
+Version: 0.0.1
+Summary: analyze overlap of icd dalys in alice as nov-22
+Home-page: https://github.com/pypa/sampleproject
+Author: luiz h superti
+Author-email: luiz.superti@alice.com.br
+Project-URL: Bug Tracker, https://github.com/pypa/sampleproject/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: <4.0
+Description-Content-Type: text/markdown
+
+# daly_comorbity
+## Description
+Your project goal and related teams
+## Owners
+- luiz h superti luiz.superti@alice.com.br
+## Setup & Deploy
+```pip install .```
+
+## Documentation
+General explanation of use cases
+
+## API
+methods, classes, constants and objects
