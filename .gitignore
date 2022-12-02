@@ -18,7 +18,6 @@ CausalInference-Analysis/cc_cid_calculator/src/model.py
 ML-models/cousin-itt/notebooks/test_econml.ipynb
 ML-models/cousin-itt/src/ate_pipeline.py
 ML-models/cousin-itt/src/interfaces/model.py
-*.csv
 carai/setup.py
 carai/src/carai.egg-info
 *google_sheets_credentials.json
